@@ -53,6 +53,10 @@ module Decidim
                              default: false,
                              desc: "Seed test database"
 
+      class_option :minimal_seeds, type: :boolean,
+                                   default: false,
+                                   desc: "Seed database with minimal contents"
+
       class_option :skip_bundle, type: :boolean,
                                  default: true, # this is to avoid installing gems in this step yet (done by InstallGenerator)
                                  desc: "Don't run bundle install"
@@ -256,6 +260,12 @@ module Decidim
                   "# config.available_locales = Rails.application.secrets.decidim[:available_locales].presence || [:en]"
       end
 
+      def add_minimal_seeds_task
+        return unless options[:minimal_seeds]
+
+        copy_file "minimal_seeds.rake", "lib/tasks/minimal_seeds.rake"
+      end
+
       def authorization_handler
         return unless options[:demo]
 
@@ -310,6 +320,7 @@ module Decidim
           [
             "--recreate_db=#{options[:recreate_db]}",
             "--seed_db=#{options[:seed_db]}",
+            "--minimal_seeds=#{options[:minimal_seeds]}",
             "--skip_gemfile=#{options[:skip_gemfile]}",
             "--app_name=#{app_name}",
             "--profiling=#{options[:profiling]}"

@@ -26,6 +26,10 @@ module Decidim
                              default: false,
                              desc: "Seed db after installing decidim"
 
+      class_option :minimal_seeds, type: :boolean,
+                                   default: false,
+                                   desc: "Seed minimal db after installing decidim"
+
       class_option :skip_gemfile, type: :boolean,
                                   default: false,
                                   desc: "Don't generate a Gemfile for the application"
@@ -180,7 +184,9 @@ module Decidim
 
         rails "db:migrate"
 
-        rails "db:seed" if options[:seed_db]
+        rails "db:seed" if options[:seed_db] && !options[:minimal_seeds]
+
+        rails "minimal_seeds:initialize_site" if options[:minimal_seeds]
 
         rails "db:test:prepare"
       end

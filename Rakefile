@@ -77,6 +77,9 @@ task test_app: "decidim:generate_external_test_app"
 desc "Generates a development app."
 task development_app: "decidim:generate_external_development_app"
 
+desc "Generates a development app with minimal seeds."
+task minimal_development_app: "decidim:generate_external_minimal_development_app"
+
 desc "Bundle all Gemfiles"
 task :bundle do
   [".", "decidim-generators", "decidim_app-design"].each do |dir|

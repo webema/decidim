@@ -56,4 +56,23 @@ namespace :decidim do
       )
     end
   end
+
+  desc "Generates a dummy app for trying out external modules with minimal seeds"
+  task :generate_external_minimal_development_app do
+    Bundler.with_original_env do
+      generate_decidim_app(
+        "development_app",
+        "--app_name",
+        "#{base_app_name}_development_app",
+        "--path",
+        "..",
+        "--recreate_db",
+        "--minimal_seeds",
+        "--demo",
+        "--profiling",
+        "--locales",
+        "en,ca,es"
+      )
+    end
+  end
 end

@@ -46,6 +46,7 @@ App generation extra options (ignored if the --component flag is on):
   --skip_webpack_install   Do not run webpacker initialization (webpack install)
   --demo                   Create a demo application, with seeds, all the optional modules enabled and some authorization examples
   --seed_db [true|false]   Seed the database: generate demo data for each participatory space and component
+  --minimal_seeds [true|false]   Seed the database with minimal contents
   --recreate_db            Recreate the database after installing Decidim
 
 Examples:

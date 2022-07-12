@@ -31,35 +31,41 @@ module Decidim
       render
     end
 
-    def profile_inline
-      render
-    end
-
-    def date
-      render
-    end
-
-    def flag_user_modal
-      render
-    end
-
-    def flag
-      render
-    end
-
     def flag_user
       render unless current_user == model
-    end
-
-    def withdraw
-      render
     end
 
     def perform_caching?
       true
     end
 
+    def context_actions_options
+      return unless options.has_key?(:context_actions)
+      return [] if options[:context_actions].blank?
+
+      @context_actions_options ||= options[:context_actions].map(&:to_sym)
+    end
+
     private
+
+    def context_actions
+      return [] unless actionable?
+
+      actions = [].tap do |list|
+        list << :date if creation_date?
+        list << :comments if commentable?
+        list << :endorsements if endorsable?
+        list << :flag if flaggable?
+        list << :withdraw if withdrawable?
+      end
+      return actions unless has_context_actions_options?
+
+      actions & context_actions_options
+    end
+
+    def has_context_actions_options?
+      context_actions_options.is_a?(Array)
+    end
 
     def cache_hash
       hash = []
@@ -109,10 +115,6 @@ module Decidim
       from_context && from_context.class.include?(Decidim::Endorsable)
     end
 
-    def author_classes
-      (["author-data"] + options[:extra_classes].to_a).join(" ")
-    end
-
     def actionable?
       return options[:has_actions] if options.has_key?(:has_actions)
 
@@ -127,10 +129,6 @@ module Decidim
       return false if options[:skip_profile_link] == true
 
       profile_path.present?
-    end
-
-    def raw_model
-      model.try(:__getobj__) || model
     end
 
     def resource_i18n_scope

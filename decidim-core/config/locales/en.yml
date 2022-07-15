@@ -1788,6 +1788,7 @@ en:
         cc_by_license: Creative Commons License
         cookie_settings: Cookie settings
         decidim_logo: Decidim Logo
+        decidim_title: Decidim
         download_open_data: Download Open Data files
         made_with_open_source: Website made with <a target="_blank" href="https://github.com/decidim/decidim">free software</a>.
       header:
